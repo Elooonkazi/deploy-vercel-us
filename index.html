@@ -1,722 +1,632 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Network - Protect Earth</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>日漫动态 · 最新情报站</title>
     <style>
+        /* ========== 全局重置 & 字体 ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #2e7d32;
-            --secondary: #4caf50;
-            --accent: #8bc34a;
-            --light: #e8f5e9;
-            --dark: #1b5e20;
-            --text: #333333;
-            --white: #ffffff;
         }
 
         body {
-            background-color: var(--light);
-            color: var(--text);
+            background-color: #0b0d15;
+            font-family: 'Segoe UI', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans', 'Microsoft YaHei', sans-serif;
+            color: #e8eaf0;
             line-height: 1.6;
-        }
-
-        header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .nav-container {
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            padding: 0 20px 60px;
+            background-image:
+                radial-gradient(ellipse at 10% 20%, rgba(90, 60, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 70%, rgba(200, 50, 120, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 10%, rgba(30, 120, 200, 0.08) 0%, transparent 50%);
         }
 
-        .logo {
+        /* ========== 容器 ========== */
+        .container {
+            max-width: 1160px;
+            width: 100%;
+        }
+
+        /* ========== 头部 ========== */
+        .header {
+            text-align: center;
+            padding: 60px 0 30px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            margin: 24px auto 0;
+            background: linear-gradient(90deg, #7b5cff, #ff3c8e, #00d4ff);
+            border-radius: 4px;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #c4b5ff 0%, #ff6ba6 40%, #5ce1ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .header .subtitle {
+            margin-top: 12px;
+            font-size: 1rem;
+            color: #8a8faa;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* ========== 动态时钟条 ========== */
+        .ticker {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1.8rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 40px;
+            padding: 10px 24px;
+            margin-bottom: 40px;
+            overflow: hidden;
+            white-space: nowrap;
+            backdrop-filter: blur(8px);
+        }
+
+        .ticker .badge {
+            background: linear-gradient(135deg, #7b5cff, #ff3c8e);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 700;
+            letter-spacing: 1px;
+            flex-shrink: 0;
         }
 
-        .logo i {
-            font-size: 2rem;
+        .ticker .text {
+            font-size: 0.85rem;
+            color: #b0b5cc;
+            animation: scrollText 20s linear infinite;
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
+        @keyframes scrollText {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
-        nav ul li {
-            margin-left: 2rem;
-        }
-
-        nav ul li a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        nav ul li a:hover {
-            color: var(--accent);
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 80vh;
+        /* ========== 区块标题 ========== */
+        .section-title {
             display: flex;
             align-items: center;
-            text-align: center;
-            color: var(--white);
+            gap: 14px;
+            margin: 50px 0 24px;
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: var(--white);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        section {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
+        .section-title .icon {
+            font-size: 1.6rem;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background-color: var(--accent);
-            border-radius: 2px;
-        }
-
-        .section-title p {
-            color: var(--text);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-img {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .about-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-
-        .about-img:hover img {
-            transform: scale(1.05);
-        }
-
-        .about-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-
-        .about-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 2rem 1rem;
-            background-color: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-10px);
-        }
-
-        .stat-item i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .stat-item h3 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-item p {
-            color: var(--text);
-        }
-
-        .initiatives {
-            background-color: var(--white);
-        }
-
-        .initiatives-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .initiative-card {
-            background-color: var(--light);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .initiative-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .initiative-img {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .initiative-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .initiative-card:hover .initiative-img img {
-            transform: scale(1.1);
-        }
-
-        .initiative-content {
-            padding: 1.5rem;
-        }
-
-        .initiative-content h3 {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #d0d8ff, #ff9ac7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .initiative-content p {
-            margin-bottom: 1.5rem;
+        .section-title .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
         }
 
-        .cta {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: var(--white);
-            text-align: center;
-            padding: 5rem 0;
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta .btn {
-            background-color: var(--white);
-            color: var(--primary);
-        }
-
-        .cta .btn:hover {
-            background-color: var(--accent);
-            color: var(--white);
-        }
-
-        footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 3rem 0 1rem;
-        }
-
-        .footer-content {
+        /* ========== 卡片网格 ========== */
+        .card-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
         }
 
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
+        .card {
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 24px 22px;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
-            padding-bottom: 10px;
+            overflow: hidden;
         }
 
-        .footer-column h3::after {
+        .card::before {
             content: '';
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: var(--accent);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #7b5cff, #ff3c8e);
+            opacity: 0;
+            transition: opacity 0.35s ease;
         }
 
-        .footer-column p {
-            margin-bottom: 1rem;
+        .card:hover {
+            background: rgba(255, 255, 255, 0.065);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(120, 80, 255, 0.08);
         }
 
-        .footer-links {
-            list-style: none;
+        .card:hover::before {
+            opacity: 1;
         }
 
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-links li a {
-            color: var(--light);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .footer-links li a:hover {
-            color: var(--accent);
-            padding-left: 5px;
-        }
-
-        .social-links {
+        .card .tag-row {
             display: flex;
-            gap: 1rem;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
-        .social-links a {
+        .card .tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .tag.new {
+            background: rgba(0, 212, 255, 0.15);
+            color: #5ce1ff;
+            border: 1px solid rgba(0, 212, 255, 0.25);
+        }
+
+        .tag.sequel {
+            background: rgba(255, 60, 142, 0.15);
+            color: #ff7ab8;
+            border: 1px solid rgba(255, 60, 142, 0.25);
+        }
+
+        .tag.movie {
+            background: rgba(255, 200, 40, 0.12);
+            color: #ffd966;
+            border: 1px solid rgba(255, 200, 40, 0.2);
+        }
+
+        .tag.news {
+            background: rgba(123, 92, 255, 0.15);
+            color: #b8a6ff;
+            border: 1px solid rgba(123, 92, 255, 0.25);
+        }
+
+        .tag.award {
+            background: rgba(255, 100, 50, 0.15);
+            color: #ff9977;
+            border: 1px solid rgba(255, 100, 50, 0.25);
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #f0f2ff;
+            line-height: 1.35;
+        }
+
+        .card .meta {
+            font-size: 0.8rem;
+            color: #7f84a0;
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 16px;
+        }
+
+        .card .meta span {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: var(--white);
-            text-decoration: none;
-            transition: all 0.3s ease;
+            gap: 4px;
         }
 
-        .social-links a:hover {
-            background-color: var(--accent);
-            transform: translateY(-5px);
+        .card p {
+            font-size: 0.88rem;
+            color: #a8adc4;
+            line-height: 1.65;
         }
 
-        .copyright {
+        /* ========== 高亮卡片（剧场版） ========== */
+        .card.highlight {
+            background: linear-gradient(145deg, rgba(123, 92, 255, 0.1), rgba(255, 60, 142, 0.06));
+            border-color: rgba(123, 92, 255, 0.25);
+        }
+
+        .card.highlight:hover {
+            border-color: rgba(123, 92, 255, 0.5);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(123, 92, 255, 0.15);
+        }
+
+        /* ========== 页脚 ========== */
+        .footer {
+            margin-top: 70px;
+            padding: 30px 0 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            color: #5a5f78;
         }
 
-        .mobile-menu {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
+        .footer a {
+            color: #8a7fff;
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        @media (max-width: 992px) {
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .initiatives-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .footer a:hover {
+            color: #b8a6ff;
         }
 
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+        /* ========== 响应式 ========== */
+        @media (max-width: 600px) {
+            .header {
+                padding: 40px 0 20px;
             }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: var(--primary);
-                flex-direction: column;
-                padding: 1rem 0;
-                text-align: center;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            }
-            
-            nav ul.active {
-                display: flex;
-            }
-            
-            nav ul li {
-                margin: 0;
-                padding: 0.8rem 0;
-            }
-            
-            .mobile-menu {
-                display: block;
-            }
-            
-            .initiatives-grid {
+
+            .card-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
+
+            .card {
+                padding: 20px 18px;
             }
-            
-            .stats {
-                grid-template-columns: 1fr;
+
+            .section-title h2 {
+                font-size: 1.2rem;
+            }
+
+            .ticker {
+                padding: 8px 16px;
             }
         }
 
-        /* Animation for stats counter */
-        .counter {
-            transition: all 0.5s ease;
+        /* ========== 滚动条 ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0b0d15;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2d40;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3d4060;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <i class="fas fa-seedling"></i>
-                <span>Green Network</span>
-            </div>
-            <nav>
-                <div class="mobile-menu">
-                    <i class="fas fa-bars"></i>
-                </div>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#initiatives">Initiatives</a></li>
-                    <li><a href="#get-involved">Get Involved</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+    <div class="container">
+
+        <!-- ==================== 头部 ==================== -->
+        <header class="header">
+            <h1>日漫动态</h1>
+            <div class="subtitle">Anime Pulse · 最新情报站</div>
+        </header>
+
+        <!-- ==================== 滚动条 ==================== -->
+        <div class="ticker">
+            <span class="badge">🔥 速报</span>
+            <span class="text">
+                《药屋少女的呢喃》第三季 10月2日开播 &nbsp;·&nbsp;
+                《赛博朋克：边缘行者》第二季 10月20日 Netflix 上线 &nbsp;·&nbsp;
+                《青春猪头少年》剧场版完结篇 10月16日上映 &nbsp;·&nbsp;
+                《咒术回战》「死灭回游」先行上映 &nbsp;·&nbsp;
+                《来自深渊》剧场版 10月23日 &nbsp;·&nbsp;
+                《次にくるマンガ大賞 2026》获奖名单公布 &nbsp;·&nbsp;
+                《吉伊卡哇》首部剧场版 7月24日 &nbsp;·&nbsp;
+                《新剧场版 银魂 -吉原大炎上-》2026年2月 &nbsp;·&nbsp;
+            </span>
         </div>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1>Protect Our Planet, Preserve Our Future</h1>
-            <p>Join the global movement to create a sustainable world through conservation, education, and community action.</p>
-            <a href="#get-involved" class="btn">Join Our Network</a>
+        <!-- ==================== 秋季新番 ==================== -->
+        <div class="section-title">
+            <span class="icon">🍂</span>
+            <h2>2026 秋季新番</h2>
+            <span class="line"></span>
         </div>
-    </section>
 
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Green Network</h2>
-                <p>We are a global community dedicated to environmental protection and sustainable development.</p>
+        <div class="card-grid">
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag sequel">续作</span>
+                    <span class="tag new">10月2日</span>
+                </div>
+                <h3>药屋少女的呢喃 第三季</h3>
+                <div class="meta">
+                    <span>🎬 OLM</span>
+                    <span>📺 Crunchyroll</span>
+                </div>
+                <p>猫猫与壬氏在后宫试图恢复平静生活，然而饥荒中“不朽铁娘子”的传闻再次将一切打乱。猫猫的推理之旅继续展开。[reference:0]</p>
             </div>
-            <div class="about-content">
-                <div class="about-img">
-                    <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005b128?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Team planting trees">
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag sequel">续作</span>
+                    <span class="tag new">10月3日</span>
                 </div>
-                <div class="about-text">
-                    <h3>Our Mission</h3>
-                    <p>Green Network is committed to creating a sustainable future by protecting natural ecosystems, promoting renewable energy, and empowering communities to take environmental action.</p>
-                    <p>Founded in 2010, we've grown from a small grassroots organization to an international network with over 50,000 members across 120 countries.</p>
-                    <p>Our approach combines scientific research, community engagement, and policy advocacy to address the most pressing environmental challenges of our time.</p>
-                    <a href="#" class="btn">Learn More</a>
+                <h3>黑色五叶草 第二季</h3>
+                <div class="meta">
+                    <span>🎬 Pierrot</span>
+                    <span>📺 Crunchyroll</span>
                 </div>
+                <p>时隔五年，阿斯塔与魔法骑士团发起突袭，勇闯黑桃王国营救被暗黑三叉戟囚禁的团长们。[reference:1]</p>
             </div>
-            <div class="stats">
-                <div class="stat-item">
-                    <i class="fas fa-tree"></i>
-                    <h3 class="counter" data-target="2500000">0</h3>
-                    <p>Trees Planted</p>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag sequel">续作</span>
+                    <span class="tag new">10月4日</span>
                 </div>
-                <div class="stat-item">
-                    <i class="fas fa-users"></i>
-                    <h3 class="counter" data-target="50000">0</h3>
-                    <p>Active Members</p>
+                <h3>蓝箱 第二季</h3>
+                <div class="meta">
+                    <span>🎬 Electric Circus</span>
+                    <span>📺 Netflix</span>
                 </div>
-                <div class="stat-item">
-                    <i class="fas fa-globe-americas"></i>
-                    <h3 class="counter" data-target="120">0</h3>
-                    <p>Countries Reached</p>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-recycle"></i>
-                    <h3 class="counter" data-target="1500">0</h3>
-                    <p>Cleanup Projects</p>
-                </div>
+                <p>羽毛球新星与篮球王牌之间萌芽的恋情，在球场内外面临全新挑战，青春恋爱物语继续升温。[reference:2]</p>
             </div>
+
+            <div class="card highlight">
+                <div class="tag-row">
+                    <span class="tag new">新作</span>
+                    <span class="tag sequel">10月20日</span>
+                </div>
+                <h3>赛博朋克：边缘行者 第二季</h3>
+                <div class="meta">
+                    <span>🎬 Trigger</span>
+                    <span>📺 Netflix</span>
+                </div>
+                <p>大卫·马丁内斯已经逝去，但夜之城仍在燃烧。全新边缘行者小队在《赛博朋克2077》的世界中展开交织冒险，一步步逼近集体理智的悬崖边缘。[reference:3]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag new">新作</span>
+                    <span class="tag sequel">10月9日</span>
+                </div>
+                <h3>萤火虫的出嫁</h3>
+                <div class="meta">
+                    <span>🎬 橘オレコ 原作</span>
+                </div>
+                <p>明治时代，被宣告寿命不长的伯爵之女桐谷纱都子，在遭到神秘杀手后藤进平袭击时，为求生存向他求婚。一段由虚假婚约开始的命运故事就此展开。OP 由 iri 演唱〈Period〉，Lynn 与内山昂辉主役。[reference:4]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag new">新作</span>
+                </div>
+                <h3>凶乱令嬢ニア・リストン</h3>
+                <div class="meta">
+                    <span>📺 BS日テレ</span>
+                </div>
+                <p>转生为病弱千金的神杀武者，展开华丽无双录。2026年10月期 BS日テレ 新作动画之一。[reference:5]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag sequel">续作</span>
+                </div>
+                <h3>夜樱家的大作战 第二季</h3>
+                <div class="meta">
+                    <span>📺 BS日テレ</span>
+                </div>
+                <p>人气家族谍战喜剧继续，第二季将于2026年秋季播出。[reference:6]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag sequel">续作</span>
+                </div>
+                <h3>侦探已经死了。Season 2</h3>
+                <div class="meta">
+                    <span>📺 BS日テレ</span>
+                </div>
+                <p>名侦探的助手与神秘少女的冒险再开，第二季延续高人气推理篇章。[reference:7]</p>
+            </div>
+
         </div>
-    </section>
 
-    <!-- Initiatives Section -->
-    <section class="initiatives" id="initiatives">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Initiatives</h2>
-                <p>Discover the key programs and projects we're implementing to protect our planet.</p>
-            </div>
-            <div class="initiatives-grid">
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://dialogue.earth/content/uploads/2021/04/lessons-from-the-rush-to-reforest-china-dialogue-2400x1599.jpg" alt="Reforestation">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Global Reforestation</h3>
-                        <p>Planting millions of trees worldwide to restore ecosystems, combat climate change, and protect biodiversity.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Ocean Conservation">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Ocean Conservation</h3>
-                        <p>Protecting marine ecosystems, reducing plastic pollution, and promoting sustainable fishing practices.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-                <div class="initiative-card">
-                    <div class="initiative-img">
-                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="Renewable Energy">
-                    </div>
-                    <div class="initiative-content">
-                        <h3>Renewable Energy</h3>
-                        <p>Promoting solar, wind, and other clean energy sources to reduce dependence on fossil fuels.</p>
-                        <a href="#" class="btn">Learn More</a>
-                    </div>
-                </div>
-            </div>
+        <!-- ==================== 剧场版 ==================== -->
+        <div class="section-title">
+            <span class="icon">🎬</span>
+            <h2>剧场版 &amp; 电影</h2>
+            <span class="line"></span>
         </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section class="cta" id="get-involved">
-        <div class="container">
-            <h2>Join Our Global Movement</h2>
-            <p>Together, we can create a sustainable future for generations to come. Every action counts, no matter how small.</p>
-            <a href="#" class="btn">Become a Member</a>
-        </div>
-    </section>
+        <div class="card-grid">
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Green Network</h3>
-                    <p>We are dedicated to protecting our planet through collaborative action, education, and sustainable solutions.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
+            <div class="card highlight">
+                <div class="tag-row">
+                    <span class="tag movie">2026.10.16</span>
+                    <span class="tag sequel">完结篇</span>
                 </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#initiatives">Initiatives</a></li>
-                        <li><a href="#get-involved">Get Involved</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
+                <h3>青春猪头少年 不会梦到亲爱好朋友</h3>
+                <div class="meta">
+                    <span>📖 鸭志田一 原作</span>
+                    <span>🎬 剧场版</span>
                 </div>
-                <div class="footer-column">
-                    <h3>Our Programs</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Reforestation</a></li>
-                        <li><a href="#">Ocean Cleanup</a></li>
-                        <li><a href="#">Wildlife Protection</a></li>
-                        <li><a href="#">Climate Education</a></li>
-                        <li><a href="#">Sustainable Agriculture</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Contact Us</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Copper Creek Drive, New York</p>
-                    <p><i class="fas fa-phone"></i> +1 (312) 171-0771</p>
-                    <p><i class="fas fa-envelope"></i> support@greennetwork.org</p>
-                </div>
+                <p>累计发行量突破300万部的人气系列完结之作。正式预告已公开，附特典预售票限量发售中。[reference:8]</p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 Green Network. All rights reserved.</p>
+
+            <div class="card highlight">
+                <div class="tag-row">
+                    <span class="tag movie">2026.10.23</span>
+                    <span class="tag sequel">续篇</span>
+                </div>
+                <h3>来自深渊：觉醒的神秘</h3>
+                <div class="meta">
+                    <span>🎬 小岛正幸 监督</span>
+                    <span>🎬 KINEMA CITRUS</span>
+                </div>
+                <p>《来自深渊》第二季续篇，系列剧场版第一部。延续TV第一季、剧场版《深沉灵魂的黎明》及第二季《烈日的黄金乡》的剧情脉络。[reference:9]</p>
             </div>
+
+            <div class="card highlight">
+                <div class="tag-row">
+                    <span class="tag movie">2026.12.11</span>
+                    <span class="tag new">完全新作</span>
+                </div>
+                <h3>剧场版 药屋少女的呢喃 亡妃的秘宝</h3>
+                <div class="meta">
+                    <span>🎬 长沼范裕 监督</span>
+                    <span>🎙️ 悠木碧 / 大冢刚央</span>
+                </div>
+                <p>日向夏完全新作故事。猫猫与壬氏面前出现前所未有的难解事件。2026年12月11日公开预定。[reference:10]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag movie">2026.2</span>
+                    <span class="tag sequel">新作动画</span>
+                </div>
+                <h3>新剧场版 银魂 -吉原大炎上-</h3>
+                <div class="meta">
+                    <span>🎬 Aniplex</span>
+                </div>
+                <p>原作史上最热血的经典篇章「吉原炎上篇」完全新作动画化，银魂首次以电影宽银幕规格呈现。[reference:11]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag movie">2026.1.30</span>
+                    <span class="tag new">改编</span>
+                </div>
+                <h3>祈念守护人</h3>
+                <div class="meta">
+                    <span>🎬 伊藤智彦 监督</span>
+                    <span>🎬 A-1 Pictures</span>
+                </div>
+                <p>东野圭吾同名长篇小说改编动画电影，Aniplex 发行。2026年1月30日上映。[reference:12]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag movie">2026.5.29</span>
+                    <span class="tag sequel">第三章</span>
+                </div>
+                <h3>怪化猫：蛇神</h3>
+                <div class="meta">
+                    <span>🎬 中村健治 监督</span>
+                </div>
+                <p>「剧场版物怪」全三章项目第三章，2026年春日本上映。[reference:13]</p>
+            </div>
+
         </div>
-    </footer>
 
-    <script>
-        // Mobile Menu Toggle
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            document.querySelector('nav ul').classList.toggle('active');
-        });
+        <!-- ==================== 行业动态 ==================== -->
+        <div class="section-title">
+            <span class="icon">📰</span>
+            <h2>行业动态 &amp; 奖项</h2>
+            <span class="line"></span>
+        </div>
 
-        // Counter Animation
-        function animateCounters() {
-            const counters = document.querySelectorAll('.counter');
-            const speed = 200; // The lower the slower
-            
-            counters.forEach(counter => {
-                const target = +counter.getAttribute('data-target');
-                const count = +counter.innerText;
-                
-                const inc = target / speed;
-                
-                if(count < target) {
-                    counter.innerText = Math.ceil(count + inc);
-                    setTimeout(animateCounters, 1);
-                } else {
-                    counter.innerText = target;
-                }
-            });
-        }
+        <div class="card-grid">
 
-        // Initialize counters when page loads
-        window.addEventListener('load', animateCounters);
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag award">漫画大赏</span>
+                    <span class="tag news">2026.9</span>
+                </div>
+                <h3>次にくるマンガ大賞 2026 结果发表</h3>
+                <div class="meta">
+                    <span>🏆 总投票数约38万票</span>
+                </div>
+                <p>漫画部门第1位：ヤマノエイ《さむわんへるつ》（青春广播喜剧）。Web漫画部门第1位：渡部大羊《おかえり水平線》（青春群像剧）。总应募作品7,952部。[reference:14][reference:15]</p>
+            </div>
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    document.querySelector('nav ul').classList.remove('active');
-                }
-            });
-        });
-    </script>
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag news">国际艾美奖</span>
+                    <span class="tag new">提名</span>
+                </div>
+                <h3>藤本树 17-26 获国际艾美奖提名</h3>
+                <div class="meta">
+                    <span>🎬 短篇系列部门</span>
+                </div>
+                <p>藤本树（《电锯人》《Look Back》作者）17岁至26岁期间创作的8部短篇动画化作品《藤本树 17-26》，入围2026年第54届国际艾美奖短篇系列部门。[reference:16]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag news">续作决定</span>
+                </div>
+                <h3>《这描く死ね》第二季制作决定</h3>
+                <div class="meta">
+                    <span>📖 とよ田みのる 原作</span>
+                </div>
+                <p>以漫画创作×女子高中生青春故事为主题的人气作品，TV动画第二季制作正式决定。[reference:17]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag news">新作决定</span>
+                </div>
+                <h3>《约会大作战》完全新作动画制作决定</h3>
+                <div class="meta">
+                    <span>🎉 15周年纪念</span>
+                </div>
+                <p>迎来15周年的《约会大作战》宣布完全新作动画制作决定。[reference:18]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag news">市场数据</span>
+                </div>
+                <h3>2025 中国动漫产业市场规模 4697.7 亿元</h3>
+                <div class="meta">
+                    <span>📊 2026北京动画周发布</span>
+                </div>
+                <p>动画电影票房占全年电影票房49%，其中国产动画占比76%；动漫衍生品市场规模达1807.8亿元。[reference:19]</p>
+            </div>
+
+            <div class="card">
+                <div class="tag-row">
+                    <span class="tag news">2025 回顾</span>
+                </div>
+                <h3>2025 夏季动画最终排名</h3>
+                <div class="meta">
+                    <span>📺 ABEMA 统计</span>
+                </div>
+                <p>播放量第1名：《胆大党》第2期。评论数第1名：《章鱼哔的原罪》。第3名：《最近的侦探真没用》。[reference:20]</p>
+            </div>
+
+        </div>
+
+        <!-- ==================== 页脚 ==================== -->
+        <footer class="footer">
+            <p>日漫动态 · Anime Pulse &nbsp;|&nbsp; 数据来源：Crunchyroll / ABEMA / BS日テレ / 次にくるマンガ大賞 / 国际艾美奖 等</p>
+            <p style="margin-top:6px;">本页面为资讯展示用途 · 纯 HTML/CSS 构建 · 无 JavaScript</p>
+        </footer>
+
+    </div>
 </body>
-
 </html>
